@@ -168,29 +168,33 @@ class InCallManager {
   }
 
   async getAudioUri(audioType, fileType) {
-    if (typeof this.audioUriMap[audioType] === "undefined") {
-      return null;
-    }
-    if (this.audioUriMap[audioType][fileType]) {
-      return this.audioUriMap[audioType][fileType];
-    } else {
-      try {
-        let result = await _InCallManager.getAudioUriJS(audioType, fileType);
-        if (typeof result === "string" && result.length > 0) {
-          this.audioUriMap[audioType][fileType] = result;
-          return result;
-        } else {
+    if (Platform.OS === "android") {
+      if (typeof this.audioUriMap[audioType] === "undefined") {
+        return null;
+      }
+      if (this.audioUriMap[audioType][fileType]) {
+        return this.audioUriMap[audioType][fileType];
+      } else {
+        try {
+          let result = await _InCallManager.getAudioUriJS(audioType, fileType);
+          if (typeof result === "string" && result.length > 0) {
+            this.audioUriMap[audioType][fileType] = result;
+            return result;
+          } else {
+            return null;
+          }
+        } catch (err) {
           return null;
         }
-      } catch (err) {
-        return null;
       }
     }
   }
 
   async chooseAudioRoute(route) {
-    let result = await _InCallManager.chooseAudioRoute(route);
-    return result;
+    if (Platform.OS === "android") {
+      let result = await _InCallManager.chooseAudioRoute(route);
+      return result;
+    }
   }
 }
 
