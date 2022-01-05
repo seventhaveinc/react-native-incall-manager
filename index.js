@@ -47,13 +47,6 @@ class InCallManager {
   }
 
   turnScreenOff() {
-    _InCallManager.turnScreenOff();
-  }
-
-  turnScreenOn() {
-    _InCallManager.turnScreenOn();
-  }
-
     if (Platform.OS === "android") {
       _InCallManager.turnScreenOff();
     }
@@ -65,9 +58,15 @@ class InCallManager {
     }
   }
 
+  turnScreenOn() {
+    if (Platform.OS === "android") {
+      _InCallManager.turnScreenOn();
+    }
+  }
+
   async getIsWiredHeadsetPluggedIn() {
     if (Platform.OS === "ios") {
-      return null
+      return null;
     } else {
       console.log("Android doesn't support getIsWiredHeadsetPluggedIn() yet.");
       return null;
@@ -78,7 +77,7 @@ class InCallManager {
     if (Platform.OS === "ios") {
       enable = enable === true ? true : false;
       brightness = typeof brightness === "number" ? brightness : 0;
-//       _InCallManager.setFlashOn(enable, brightness);
+      //       _InCallManager.setFlashOn(enable, brightness);
     } else {
       console.log("Android doesn't support setFlashOn(enable, brightness)");
     }
